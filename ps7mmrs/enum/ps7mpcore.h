@@ -1761,9 +1761,9 @@ enum TGIC_ICDISER
 
 //------------------------------------------------------------------------------
 //
-// Register (MPCORE) GIC_ICDICER0
+// Register (MPCORE) GIC_ICDICER
 //
-// Name                    GIC_ICDICER0
+// Name                    GIC_ICDICER
 // Software Name           GIC_DISABLE
 // Relative Address        0x00001180
 // Absolute Address        0xF8F01180
@@ -1778,20 +1778,20 @@ enum TGIC_ICDISER
 // ICDICER1                  0xF8F01184
 // ICDICER2                  0xF8F01188
 //
-// Register GIC_ICDICER0 Details
+// Register GIC_ICDICER Details
 //
-enum TGIC_ICDICER0
+enum TGIC_ICDICER
 {
-                                                // Properties: Bits: 31:0, Type: rw, Reset Value: 0xFFFF
-    GIC_ICDICER0_CLEAR_MASK =  0xFFFFFFFFUL,    // The ICDICERs provide a Clear-enable bit for each
-    GIC_ICDICER0_CLEAR_BPOS =  0UL              // interrupt supported by the GIC.
-                                                // Writing 1 to a Clear-enable bit disables
-                                                // forwarding of the corresponding interrupt to the
-                                                // CPU interfaces.
-                                                // A register bit that corresponds to a Secure
-                                                // interrupt is RAZ/WI to Non-secure accesses.
-                                                // ICDICER0 is banked for each connected
-                                                // processor.
+                                               // Properties: Bits: 31:0, Type: rw, Reset Value: 0xFFFF
+    GIC_ICDICER_CLEAR_MASK =  0xFFFFFFFFUL,    // The ICDICERs provide a Clear-enable bit for each
+    GIC_ICDICER_CLEAR_BPOS =  0UL              // interrupt supported by the GIC.
+                                               // Writing 1 to a Clear-enable bit disables
+                                               // forwarding of the corresponding interrupt to the
+                                               // CPU interfaces.
+                                               // A register bit that corresponds to a Secure
+                                               // interrupt is RAZ/WI to Non-secure accesses.
+                                               // ICDICER0 is banked for each connected
+                                               // processor.
 
 };
 
@@ -1969,7 +1969,7 @@ enum TGIC_ICDIPR
 // Reset Value                 0x00000000
 // Description                 Interrupt Processor Targets Register 0
 //
-// Register GIC_ICDISPR Details
+// Register GIC_ICDISPR0 Details
 //            The ICDIPTR0 register is used to indicate the targets of interrupts ID#0-ID#3.
 //
 enum TGIC_ICDIPTR0

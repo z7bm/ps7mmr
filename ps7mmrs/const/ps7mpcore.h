@@ -1647,9 +1647,9 @@ const uintptr_t GIC_ICDISER_SET_BPOS = 0;             // interrupt supported by 
 
 //------------------------------------------------------------------------------
 //
-// Register (MPCORE) GIC_ICDICER0
+// Register (MPCORE) GIC_ICDICER
 //
-// Name                    GIC_ICDICER0
+// Name                    GIC_ICDICER
 // Software Name           GIC_DISABLE
 // Relative Address        0x00001180
 // Absolute Address        0xF8F01180
@@ -1664,18 +1664,18 @@ const uintptr_t GIC_ICDISER_SET_BPOS = 0;             // interrupt supported by 
 // ICDICER1                  0xF8F01184
 // ICDICER2                  0xF8F01188
 //
-// Register GIC_ICDICER0 Details
+// Register GIC_ICDICER Details
 //
-                                                         // Properties: Bits: 31:0, Type: rw, Reset Value: 0xFFFF
-const uintptr_t GIC_ICDICER0_CLEAR_MASK = 0xFFFFFFFF;    // The ICDICERs provide a Clear-enable bit for each
-const uintptr_t GIC_ICDICER0_CLEAR_BPOS = 0;             // interrupt supported by the GIC.
-                                                         // Writing 1 to a Clear-enable bit disables
-                                                         // forwarding of the corresponding interrupt to the
-                                                         // CPU interfaces.
-                                                         // A register bit that corresponds to a Secure
-                                                         // interrupt is RAZ/WI to Non-secure accesses.
-                                                         // ICDICER0 is banked for each connected
-                                                         // processor.
+                                                        // Properties: Bits: 31:0, Type: rw, Reset Value: 0xFFFF
+const uintptr_t GIC_ICDICER_CLEAR_MASK = 0xFFFFFFFF;    // The ICDICERs provide a Clear-enable bit for each
+const uintptr_t GIC_ICDICER_CLEAR_BPOS = 0;             // interrupt supported by the GIC.
+                                                        // Writing 1 to a Clear-enable bit disables
+                                                        // forwarding of the corresponding interrupt to the
+                                                        // CPU interfaces.
+                                                        // A register bit that corresponds to a Secure
+                                                        // interrupt is RAZ/WI to Non-secure accesses.
+                                                        // ICDICER0 is banked for each connected
+                                                        // processor.
 
 
 //------------------------------------------------------------------------------
@@ -1840,7 +1840,7 @@ const uintptr_t GIC_ICDIPR_PRIORITY_BPOS = 0;             // each interrupt supp
 // Reset Value                 0x00000000
 // Description                 Interrupt Processor Targets Register 0
 //
-// Register GIC_ICDISPR Details
+// Register GIC_ICDISPR0 Details
 //            The ICDIPTR0 register is used to indicate the targets of interrupts ID#0-ID#3.
 //
                                                             // Properties: Bits: 25:24, Type: ro, Reset Value: 0x0
