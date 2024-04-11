@@ -1,6 +1,6 @@
-# zynq7000
+# Zynq-7000 PS MMRs
 
-Purpose: Xilinx Zynq7000 support and example code
+Purpose: Xilinx Zynq-7000 PS Memory-Mapped Registers C/C++ Headers
 
 ## Features
 
