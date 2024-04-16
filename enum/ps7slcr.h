@@ -70,7 +70,7 @@ enum TSLCR
     GEM0_CLK_CTRL_REG           =  SLCR_ADDR + 0x00000140, //  32    rw       0x00003C01    GigE 0 Ref Clock Control
     GEM1_CLK_CTRL_REG           =  SLCR_ADDR + 0x00000144, //  32    rw       0x00003C01    GigE 1 Ref Clock Control
     SMC_CLK_CTRL_REG            =  SLCR_ADDR + 0x00000148, //  32    rw       0x00003C21    SMC Ref Clock Control
-    LQSPI_CLK_CTRL_REG          =  SLCR_ADDR + 0x0000014C, //  32    rw       0x00002821    Quad SPI Ref Clock Control
+    QSPI_CLK_CTRL_REG           =  SLCR_ADDR + 0x0000014C, //  32    rw       0x00002821    Quad SPI Ref Clock Control
     SDIO_CLK_CTRL_REG           =  SLCR_ADDR + 0x00000150, //  32    rw       0x00001E03    SDIO Ref Clock Control
     UART_CLK_CTRL_REG           =  SLCR_ADDR + 0x00000154, //  32    rw       0x00003F03    UART Ref Clock Control
     SPI_CLK_CTRL_REG            =  SLCR_ADDR + 0x00000158, //  32    rw       0x00003F03    SPI Ref Clock Control
@@ -108,12 +108,12 @@ enum TSLCR
     I2C_RST_CTRL_REG            =  SLCR_ADDR + 0x00000224, //  32    rw       0x00000000    I2C Software Reset Control
     UART_RST_CTRL_REG           =  SLCR_ADDR + 0x00000228, //  32    rw       0x00000000    UART Software Reset Control
     GPIO_RST_CTRL_REG           =  SLCR_ADDR + 0x0000022C, //  32    rw       0x00000000    GPIO Software Reset Control
-    LQSPI_RST_CTRL_REG          =  SLCR_ADDR + 0x00000230, //  32    rw       0x00000000    Quad SPI Software Reset Control
+    QSPI_RST_CTRL_REG           =  SLCR_ADDR + 0x00000230, //  32    rw       0x00000000    Quad SPI Software Reset Control
     SMC_RST_CTRL_REG            =  SLCR_ADDR + 0x00000234, //  32    rw       0x00000000    SMC Software Reset Control
     OCM_RST_CTRL_REG            =  SLCR_ADDR + 0x00000238, //  32    rw       0x00000000    OCM Software Reset Control
     FPGA_RST_CTRL_REG           =  SLCR_ADDR + 0x00000240, //  32    rw       0x01F33F0F    FPGA Software Reset Control
     A9_CPU_RST_CTRL_REG         =  SLCR_ADDR + 0x00000244, //  32    rw       0x00000000    CPU Reset and Clock control
-    RS_AWDT_CTRL_REG            =  SLCR_ADDR + 0x0000024C, //  32    rw       0x00000000    Watchdog Timer Reset Control
+    AWDT_RST_CTRL_REG           =  SLCR_ADDR + 0x0000024C, //  32    rw       0x00000000    Watchdog Timer Reset Control
     REBOOT_STATUS_REG           =  SLCR_ADDR + 0x00000258, //  32    rw       0x00400000    Reboot Status
     BOOT_MODE_REG               =  SLCR_ADDR + 0x0000025C, //  32    mixed    x             Boot Mode Strapping Pins
     APU_CTRL_REG                =  SLCR_ADDR + 0x00000300, //  32    rw       0x00000000    APU Control
@@ -322,13 +322,13 @@ enum TSLCR_LOCKSTA_REG
 
                                                       // Properties: Bit: 0, Type: ro, Reset Value: 0x1
     SLCR_LOCKSTA_LOCK_STATUS_MASK =  0x00000001UL,    // Current state of write protection mode of SLCR:
-    SLCR_LOCKSTA_LOCK_STATUS_BPOS =  0UL              // : Registers are writeable. Use the
-                                                      // lcr.SLCR_LOCK register to lock the slcr registers.
-                                                      // : Registers are not writeable.
-                                                      // ny attempt to write to an slcr register is ignored,
-                                                      // ut reads will return valid register values.
-                                                      // se the slcr.SLCR_UNLOCK register to unlock
-                                                      // he slcr registers.
+    SLCR_LOCKSTA_LOCK_STATUS_BPOS =  0UL              // 0: Registers are writeable. Use the
+                                                      // slcr.SLCR_LOCK register to lock the slcr registers.
+                                                      // 1: Registers are not writeable.
+                                                      // Any attempt to write to an slcr register is ignored,
+                                                      // but reads will return valid register values.
+                                                      // Use the slcr.SLCR_UNLOCK register to unlock
+                                                      // the slcr registers.
 
 };
 
@@ -515,7 +515,7 @@ enum TIO_PLL_CTRL_REG
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) PLL_STATUS
+// Register (SLCR) PLL_STS
 //
 // Name                     PLL_STATUS_REG
 // Relative Address         0x0000010C
@@ -531,34 +531,34 @@ enum TIO_PLL_CTRL_REG
 //
 enum TPLL_STATUS_REG
 {
-// RESERVED                                               Properties: Bits: 31:6, Type: ro, Reset Value: 0x0
+// RESERVED                                            Properties: Bits: 31:6, Type: ro, Reset Value: 0x0
 
-                                                       // Properties: Bit: 5, Type: ro, Reset Value: 0x1
-    PLL_STATUS_IO_PLL_STABLE_MASK  =  0x00000020UL,    // IO PLL clock stable status:
-    PLL_STATUS_IO_PLL_STABLE_BPOS  =  5UL,             // 0: not locked and not in bypass
-                                                       // 1: locked or bypassed
+                                                    // Properties: Bit: 5, Type: ro, Reset Value: 0x1
+    PLL_STS_IO_PLL_STABLE_MASK  =  0x00000020UL,    // IO PLL clock stable status:
+    PLL_STS_IO_PLL_STABLE_BPOS  =  5UL,             // 0: not locked and not in bypass
+                                                    // 1: locked or bypassed
 
-                                                       // Properties: Bit: 4, Type: ro, Reset Value: 0x1
-    PLL_STATUS_DDR_PLL_STABLE_MASK =  0x00000010UL,    // DDR PLL clock stable status:
-    PLL_STATUS_DDR_PLL_STABLE_BPOS =  4UL,             // 0: not locked and not in bypass
-                                                       // 1: locked or bypassed
+                                                    // Properties: Bit: 4, Type: ro, Reset Value: 0x1
+    PLL_STS_DDR_PLL_STABLE_MASK =  0x00000010UL,    // DDR PLL clock stable status:
+    PLL_STS_DDR_PLL_STABLE_BPOS =  4UL,             // 0: not locked and not in bypass
+                                                    // 1: locked or bypassed
 
-                                                       // Properties: Bit: 3, Type: ro, Reset Value: 0x1
-    PLL_STATUS_ARM_PLL_STABLE_MASK =  0x00000008UL,    // ARM PLL clock stable status:
-    PLL_STATUS_ARM_PLL_STABLE_BPOS =  3UL,             // 0: not locked and not in bypass
-                                                       // 1: locked or bypassed
+                                                    // Properties: Bit: 3, Type: ro, Reset Value: 0x1
+    PLL_STS_ARM_PLL_STABLE_MASK =  0x00000008UL,    // ARM PLL clock stable status:
+    PLL_STS_ARM_PLL_STABLE_BPOS =  3UL,             // 0: not locked and not in bypass
+                                                    // 1: locked or bypassed
 
-                                                       // Properties: Bit: 2, Type: ro, Reset Value: 0x1
-    PLL_STATUS_IO_PLL_LOCK_MASK    =  0x00000004UL,    // IO PLL lock status:
-    PLL_STATUS_IO_PLL_LOCK_BPOS    =  2UL,             // 0: not locked, 1: locked
+                                                    // Properties: Bit: 2, Type: ro, Reset Value: 0x1
+    PLL_STS_IO_PLL_LOCK_MASK    =  0x00000004UL,    // IO PLL lock status:
+    PLL_STS_IO_PLL_LOCK_BPOS    =  2UL,             // 0: not locked, 1: locked
 
-                                                       // Properties: Bit: 1, Type: ro, Reset Value: 0x1
-    PLL_STATUS_DDR_PLL_LOCK_MASK   =  0x00000002UL,    // DDR PLL lock status:
-    PLL_STATUS_DDR_PLL_LOCK_BPOS   =  1UL,             // 0: not locked, 1: locked
+                                                    // Properties: Bit: 1, Type: ro, Reset Value: 0x1
+    PLL_STS_DDR_PLL_LOCK_MASK   =  0x00000002UL,    // DDR PLL lock status:
+    PLL_STS_DDR_PLL_LOCK_BPOS   =  1UL,             // 0: not locked, 1: locked
 
-                                                       // Properties: Bit: 0, Type: ro, Reset Value: 0x1
-    PLL_STATUS_ARM_PLL_LOCK_MASK   =  0x00000001UL,    // ARM PLL lock status:
-    PLL_STATUS_ARM_PLL_LOCK_BPOS   =  0UL              // 0: not locked, 1: locked
+                                                    // Properties: Bit: 0, Type: ro, Reset Value: 0x1
+    PLL_STS_ARM_PLL_LOCK_MASK   =  0x00000001UL,    // ARM PLL lock status:
+    PLL_STS_ARM_PLL_LOCK_BPOS   =  0UL              // 0: not locked, 1: locked
 
 };
 
@@ -830,8 +830,8 @@ enum TAPER_CLK_CTRL_REG
     APER_CLK_CTRL_SMC_CPU_1XCLKACT_BPOS   =  24UL,            // 0: disable, 1: enable
 
                                                               // Properties: Bit: 23, Type: rw, Reset Value: 0x1
-    APER_CLK_CTRL_LQSPI_CPU_1XCLKACT_MASK =  0x00800000UL,    // Quad SPI AMBA Clock control
-    APER_CLK_CTRL_LQSPI_CPU_1XCLKACT_BPOS =  23UL,            // 0: disable, 1: enable
+    APER_CLK_CTRL_QSPI_CPU_1XCLKACT_MASK  =  0x00800000UL,    // Quad SPI AMBA Clock control
+    APER_CLK_CTRL_QSPI_CPU_1XCLKACT_BPOS  =  23UL,            // 0: disable, 1: enable
 
                                                               // Properties: Bit: 22, Type: rw, Reset Value: 0x1
     APER_CLK_CTRL_GPIO_CPU_1XCLKACT_MASK  =  0x00400000UL,    // GPIO AMBA Clock control
@@ -994,7 +994,7 @@ enum TUSB1_CLK_CTRL_REG
 //
 // Register (SLCR) GEM0_RCLK_CTRL
 //
-// Name                    GEM0_RCLK_CTRL_REG_REG
+// Name                    GEM0_RCLK_CTRL_REG
 // Relative Address        0x00000138
 // Absolute Address        0xF8000138
 // Width                   32 bits
@@ -1002,9 +1002,9 @@ enum TUSB1_CLK_CTRL_REG
 // Reset Value             0x00000001
 // Description             GigE 0 Rx Clock and Rx Signals Select
 //
-// Register GEM0_RCLK_CTRL_REG_REG Details
+// Register GEM0_RCLK_CTRL_REG Details
 //
-enum TGEM0_RCLK_CTRL_REG_REG
+enum TGEM0_RCLK_CTRL_REG
 {
 // RESERVED                                           Properties: Bits: 31:5, Type: rw, Reset Value: 0x0
 
@@ -1026,7 +1026,7 @@ enum TGEM0_RCLK_CTRL_REG_REG
 //
 // Register (SLCR) GEM1_RCLK_CTRL
 //
-// Name                    GEM1_RCLK_CTRL_REG_REG
+// Name                    GEM1_RCLK_CTRL_REG
 // Relative Address        0x0000013C
 // Absolute Address        0xF800013C
 // Width                   32 bits
@@ -1034,9 +1034,9 @@ enum TGEM0_RCLK_CTRL_REG_REG
 // Reset Value             0x00000001
 // Description             GigE 1 Rx Clock and Rx Signals Select
 //
-// Register GEM1_RCLK_CTRL_REG_REG Details
+// Register GEM1_RCLK_CTRL_REG Details
 //
-enum TGEM1_RCLK_CTRL_REG_REG
+enum TGEM1_RCLK_CTRL_REG
 {
 // RESERVED                                           Properties: Bits: 31:5, Type: rw, Reset Value: 0x0
 
@@ -1058,7 +1058,7 @@ enum TGEM1_RCLK_CTRL_REG_REG
 //
 // Register (SLCR) GEM0_CLK_CTRL
 //
-// Name                    GEM0_CLK_CTRL_REG_REG
+// Name                    GEM0_CLK_CTRL_REG
 // Relative Address        0x00000140
 // Absolute Address        0xF8000140
 // Width                   32 bits
@@ -1066,9 +1066,9 @@ enum TGEM1_RCLK_CTRL_REG_REG
 // Reset Value             0x00003C01
 // Description             GigE 0 Ref Clock Control
 //
-// Register GEM0_CLK_CTRL_REG_REG Details
+// Register GEM0_CLK_CTRL_REG Details
 //
-enum TGEM0_CLK_CTRL_REG_REG
+enum TGEM0_CLK_CTRL_REG
 {
 // RESERVED                                            Properties: Bits: 31:26, Type: rw, Reset Value: 0x0
 
@@ -1103,7 +1103,7 @@ enum TGEM0_CLK_CTRL_REG_REG
 //
 // Register (SLCR) GEM1_CLK_CTRL
 //
-// Name                    GEM1_CLK_CTRL_REG_REG
+// Name                    GEM1_CLK_CTRL_REG
 // Relative Address        0x00000144
 // Absolute Address        0xF8000144
 // Width                   32 bits
@@ -1111,9 +1111,9 @@ enum TGEM0_CLK_CTRL_REG_REG
 // Reset Value             0x00003C01
 // Description             GigE 1 Ref Clock Control
 //
-// Register GEM1_CLK_CTRL_REG_REG Details
+// Register GEM1_CLK_CTRL_REG Details
 //
-enum TGEM1_CLK_CTRL_REG_REG
+enum TGEM1_CLK_CTRL_REG
 {
 // RESERVED                                            Properties: Bits: 31:26, Type: rw, Reset Value: 0x0
 
@@ -1176,15 +1176,15 @@ enum TSMC_CLK_CTRL_REG
 
                                                   // Properties: Bit: 0, Type: rw, Reset Value: 0x1
     SMC_CLK_CTRL_CLKACT_MASK  =  0x00000001UL,    // SMC Reference Clock control
-    SMC_CLK_CTRL_CLKACT_BPOS  =  0UL              // : disable, 1: enable
+    SMC_CLK_CTRL_CLKACT_BPOS  =  0UL              // 0: disable, 1: enable
 
 };
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) LQSPI_CLK_CTRL
+// Register (SLCR) QSPI_CLK_CTRL
 //
-// Name                    LQSPI_CLK_CTRL_REG
+// Name                    QSPI_CLK_CTRL_REG
 // Relative Address        0x0000014C
 // Absolute Address        0xF800014C
 // Width                   32 bits
@@ -1192,27 +1192,27 @@ enum TSMC_CLK_CTRL_REG
 // Reset Value             0x00002821
 // Description             Quad SPI Ref Clock Control
 //
-// Register LQSPI_CLK_CTRL_REG Details
+// Register QSPI_CLK_CTRL_REG Details
 //
-enum TLQSPI_CLK_CTRL_REG
+enum TQSPI_CLK_CTRL_REG
 {
-// RESERVED                                            Properties: Bits: 31:14, Type: rw, Reset Value: 0x0
+// RESERVED                                           Properties: Bits: 31:14, Type: rw, Reset Value: 0x0
 
-                                                    // Properties: Bits: 13:8, Type: rw, Reset Value: 0x28
-    LQSPI_CLK_CTRL_DIVISOR_MASK =  0x00003F00UL,    // Divisor for Quad SPI Controller source clock.
-    LQSPI_CLK_CTRL_DIVISOR_BPOS =  8UL,             // 
+                                                   // Properties: Bits: 13:8, Type: rw, Reset Value: 0x28
+    QSPI_CLK_CTRL_DIVISOR_MASK =  0x00003F00UL,    // Divisor for Quad SPI Controller source clock.
+    QSPI_CLK_CTRL_DIVISOR_BPOS =  8UL,             // 
 
-// RESERVED                                            Properties: Bits: 7:6, Type: rw, Reset Value: 0x0
+// RESERVED                                           Properties: Bits: 7:6, Type: rw, Reset Value: 0x0
 
-                                                    // Properties: Bits: 5:4, Type: rw, Reset Value: 0x2
-    LQSPI_CLK_CTRL_SRCSEL_MASK  =  0x00000030UL,    // Select clock source generate Quad SPI clock:
-    LQSPI_CLK_CTRL_SRCSEL_BPOS  =  4UL,             // 0x: IO PLL, 10: ARM PLL, 11: DDR PLL
+                                                   // Properties: Bits: 5:4, Type: rw, Reset Value: 0x2
+    QSPI_CLK_CTRL_SRCSEL_MASK  =  0x00000030UL,    // Select clock source generate Quad SPI clock:
+    QSPI_CLK_CTRL_SRCSEL_BPOS  =  4UL,             // 0x: IO PLL, 10: ARM PLL, 11: DDR PLL
 
-// RESERVED                                            Properties: Bits: 3:1, Type: rw, Reset Value: 0x0
+// RESERVED                                           Properties: Bits: 3:1, Type: rw, Reset Value: 0x0
 
-                                                    // Properties: Bit: 0, Type: rw, Reset Value: 0x1
-    LQSPI_CLK_CTRL_CLKACT_MASK  =  0x00000001UL,    // Quad SPI Controller Reference Clock control
-    LQSPI_CLK_CTRL_CLKACT_BPOS  =  0UL              // 0: disable, 1: enable
+                                                   // Properties: Bit: 0, Type: rw, Reset Value: 0x1
+    QSPI_CLK_CTRL_CLKACT_MASK  =  0x00000001UL,    // Quad SPI Controller Reference Clock control
+    QSPI_CLK_CTRL_CLKACT_BPOS  =  0UL              // 0: disable, 1: enable
 
 };
 
@@ -1299,7 +1299,7 @@ enum TUART_CLK_CTRL_REG
 
                                                    // Properties: Bit: 0, Type: rw, Reset Value: 0x1
     UART_CLK_CTRL_CLKACT0_MASK =  0x00000001UL,    // UART 0 Reference clock control.
-    UART_CLK_CTRL_CLKACT0_BPOS =  0UL              // : disable, 1: enable
+    UART_CLK_CTRL_CLKACT0_BPOS =  0UL              // 0: disable, 1: enable
 
 };
 
@@ -1900,9 +1900,9 @@ enum TFPGA2_THR_CTRL_REG
 
                                                       // Properties: Bit: 1, Type: rw, Reset Value: 0x0
     FPGA2_THR_CTRL_CNT_RST_MASK   =  0x00000002UL,    // Reset clock throttle counter when in halt state:
-    FPGA2_THR_CTRL_CNT_RST_BPOS   =  1UL,             // : No effect
-                                                      // : Causes counter to be reset once HALT state is
-                                                      // ntered
+    FPGA2_THR_CTRL_CNT_RST_BPOS   =  1UL,             // 0: No effect
+                                                      // 1: Causes counter to be reset once HALT state is
+                                                      // entered
 
                                                       // Properties: Bit: 0, Type: rw, Reset Value: 0x0
     FPGA2_THR_CTRL_CPU_START_MASK =  0x00000001UL,    // Start or restart count on detection of 0 to 1
@@ -1962,10 +1962,10 @@ enum TFPGA2_THR_STA_REG
 
                                                     // Properties: Bit: 16, Type: ro, Reset Value: 0x1
     FPGA2_THR_STA_RUNNING_MASK  =  0x00010000UL,    // Current running status of FPGA clock output:
-    FPGA2_THR_STA_RUNNING_BPOS  =  16UL,            // : Clock is stopped or in normal mode (OK to
-                                                    // hange configuration).
-                                                    // : Clock is running in debug mode (Keep
-                                                    // onfiguration static).
+    FPGA2_THR_STA_RUNNING_BPOS  =  16UL,            // 0: Clock is stopped or in normal mode (OK to
+                                                    // change configuration).
+                                                    // 1: Clock is running in debug mode (Keep
+                                                    // configuration static).
 
                                                     // Properties: Bits: 15:0, Type: ro, Reset Value: 0x0
     FPGA2_THR_STA_CURR_VAL_MASK =  0x0000FFFFUL,    // Current clock throttle counter value, which
@@ -2102,10 +2102,10 @@ enum TFPGA3_THR_STA_REG
 
                                                     // Properties: Bit: 16, Type: ro, Reset Value: 0x1
     FPGA3_THR_STA_RUNNING_MASK  =  0x00010000UL,    // Current running status of FPGA clock output:
-    FPGA3_THR_STA_RUNNING_BPOS  =  16UL,            // : Clock is stopped or in normal mode (OK to
-                                                    // hange configuration).
-                                                    // : Clock is running in debug mode (Keep
-                                                    // onfiguration static).
+    FPGA3_THR_STA_RUNNING_BPOS  =  16UL,            // 0: Clock is stopped or in normal mode (OK to
+                                                    // change configuration).
+                                                    // 1: Clock is running in debug mode (Keep
+                                                    // configuration static).
 
                                                     // Properties: Bits: 15:0, Type: ro, Reset Value: 0x0
     FPGA3_THR_STA_CURR_VAL_MASK =  0x0000FFFFUL,    // Current clock throttle counter value, which
@@ -2130,14 +2130,14 @@ enum TFPGA3_THR_STA_REG
 //
 enum TCLK_621_TRUE_REG
 {
-// RESERVED                                               Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
+// RESERVED                                      Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
-                                                       // Properties: Bit: 0, Type: rw, Reset Value: 0x1
-    CLK_621_TRUE_CLK_621_TRUE_MASK =  0x00000001UL,    // Select the CPU clock ratio:
-    CLK_621_TRUE_CLK_621_TRUE_BPOS =  0UL              // (When this register changes, no access are allowed
-                                                       // to OCM.)
-                                                       // 0: 4:2:1
-                                                       // 1: 6:2:1
+                                              // Properties: Bit: 0, Type: rw, Reset Value: 0x1
+    CLK_621_TRUE_VAL_MASK =  0x00000001UL,    // Select the CPU clock ratio:
+    CLK_621_TRUE_VAL_BPOS =  0UL              // (When this register changes, no access are allowed
+                                              // to OCM.)
+                                              // 0: 4:2:1
+                                              // 1: 6:2:1
 
 };
 
@@ -2185,11 +2185,11 @@ enum TPSS_RST_CTRL_REG
 //
 enum TDDR_RST_CTRL_REG
 {
-// RESERVED                                          Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
+// RESERVED                                      Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
-                                                  // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    DDR_RST_CTRL_DDR_RST_MASK =  0x00000001UL,    // DDR software reset control signal
-    DDR_RST_CTRL_DDR_RST_BPOS =  0UL              // : disable, 1: enable
+                                              // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    DDR_RST_CTRL_RST_MASK =  0x00000001UL,    // DDR software reset control signal
+    DDR_RST_CTRL_RST_BPOS =  0UL              // 0: disable, 1: enable
 
 };
 
@@ -2209,23 +2209,23 @@ enum TDDR_RST_CTRL_REG
 //
 enum TTOPSW_RST_CTRL_REG
 {
-// RESERVED                                              Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
+// RESERVED                                        Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
-                                                      // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    TOPSW_RST_CTRL_TOPSW_RST_MASK =  0x00000001UL,    // Central Interconnect Reset Control:
-    TOPSW_RST_CTRL_TOPSW_RST_BPOS =  0UL              // 0: de-assert (no reset)
-                                                      // 1: assert
-                                                      // Care must be taken to ensure that the AXI
-                                                      // interconnect does not have outstanding
-                                                      // transactions and the bus is idle.
+                                                // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    TOPSW_RST_CTRL_RST_MASK =  0x00000001UL,    // Central Interconnect Reset Control:
+    TOPSW_RST_CTRL_RST_BPOS =  0UL              // 0: de-assert (no reset)
+                                                // 1: assert
+                                                // Care must be taken to ensure that the AXI
+                                                // interconnect does not have outstanding
+                                                // transactions and the bus is idle.
 
 };
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) RST_CTRL
+// Register (SLCR) DMAC_RST_CTRL
 //
-// Name                    DMAC_RST_CTRL_REG_REG
+// Name                    DMAC_RST_CTRL_REG
 // Relative Address        0x0000020C
 // Absolute Address        0xF800020C
 // Width                   32 bits
@@ -2233,15 +2233,15 @@ enum TTOPSW_RST_CTRL_REG
 // Reset Value             0x00000000
 // Description             DMAC Software Reset Control
 //
-// Register DMAC_RST_CTRL_REG_REG Details
+// Register DMAC_RST_CTRL_REG Details
 //
-enum TDMAC_RST_CTRL_REG_REG
+enum TDMAC_RST_CTRL_REG
 {
 // RESERVED                                       Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
                                                // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    RST_CTRL_DMAC_RST_MASK =  0x00000001UL,    // DMA Controller software reset signal.
-    RST_CTRL_DMAC_RST_BPOS =  0UL              // 0: de-assert (DMA controller TrustZone register is
+    DMAC_RST_CTRL_RST_MASK =  0x00000001UL,    // DMA Controller software reset signal.
+    DMAC_RST_CTRL_RST_BPOS =  0UL              // 0: de-assert (DMA controller TrustZone register is
                                                // read only)
                                                // 1: assert (DMA controller TrustZone register is
                                                // writeable)
@@ -2282,9 +2282,9 @@ enum TUSB_RST_CTRL_REG
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) RST_CTRL
+// Register (SLCR) GEM_RST_CTRL
 //
-// Name                    GEM_RST_CTRL_REG_REG
+// Name                    GEM_RST_CTRL_REG
 // Relative Address        0x00000214
 // Absolute Address        0xF8000214
 // Width                   32 bits
@@ -2292,47 +2292,47 @@ enum TUSB_RST_CTRL_REG
 // Reset Value             0x00000000
 // Description             Gigabit Ethernet SW Reset Control
 //
-// Register GEM_RST_CTRL_REG_REG Details
+// Register GEM_RST_CTRL_REG Details
 //         Each Gigabit Ethernet controller has 3 clock domains and each clock domain has a reset control:
 //         * Reference clock domain reset
 //         * RxClock domain reset
 //         * CPU_1x clock domain reset
 //
-enum TGEM_RST_CTRL_REG_REG
+enum TGEM_RST_CTRL_REG
 {
-// RESERVED                                             Properties: Bits: 31:8, Type: rw, Reset Value: 0x0
+// RESERVED                                                 Properties: Bits: 31:8, Type: rw, Reset Value: 0x0
 
-                                                     // Properties: Bit: 7, Type: rw, Reset Value: 0x0
-    RST_CTRL_GEM1_REF_RST_MASK   =  0x00000080UL,    // Gigabit Ethernet 1 reference clock reset:
-    RST_CTRL_GEM1_REF_RST_BPOS   =  7UL,             // 0: de-assert (no reset)
-                                                     // 1: assert (interfaces are held in reset)
+                                                         // Properties: Bit: 7, Type: rw, Reset Value: 0x0
+    GEM_RST_CTRL_GEM1_REF_RST_MASK   =  0x00000080UL,    // Gigabit Ethernet 1 reference clock reset:
+    GEM_RST_CTRL_GEM1_REF_RST_BPOS   =  7UL,             // 0: de-assert (no reset)
+                                                         // 1: assert (interfaces are held in reset)
 
-                                                     // Properties: Bit: 6, Type: rw, Reset Value: 0x0
-    RST_CTRL_GEM0_REF_RST_MASK   =  0x00000040UL,    // Gigabit Ethernet 0 reference clock domain reset:
-    RST_CTRL_GEM0_REF_RST_BPOS   =  6UL,             // 0: de-assert (no reset)
-                                                     // 1: assert (controller is held in reset)
+                                                         // Properties: Bit: 6, Type: rw, Reset Value: 0x0
+    GEM_RST_CTRL_GEM0_REF_RST_MASK   =  0x00000040UL,    // Gigabit Ethernet 0 reference clock domain reset:
+    GEM_RST_CTRL_GEM0_REF_RST_BPOS   =  6UL,             // 0: de-assert (no reset)
+                                                         // 1: assert (controller is held in reset)
 
-                                                     // Properties: Bit: 5, Type: rw, Reset Value: 0x0
-    RST_CTRL_GEM1_RX_RST_MASK    =  0x00000020UL,    // Gigabit Ethernet 1 Rx clock domain reset:
-    RST_CTRL_GEM1_RX_RST_BPOS    =  5UL,             // 0: de-assert (no reset)
-                                                     // 1: assert (held in reset)
+                                                         // Properties: Bit: 5, Type: rw, Reset Value: 0x0
+    GEM_RST_CTRL_GEM1_RX_RST_MASK    =  0x00000020UL,    // Gigabit Ethernet 1 Rx clock domain reset:
+    GEM_RST_CTRL_GEM1_RX_RST_BPOS    =  5UL,             // 0: de-assert (no reset)
+                                                         // 1: assert (held in reset)
 
-                                                     // Properties: Bit: 4, Type: rw, Reset Value: 0x0
-    RST_CTRL_GEM0_RX_RST_MASK    =  0x00000010UL,    // Gigabit Ethernet 0 Rx clock domain reset:
-    RST_CTRL_GEM0_RX_RST_BPOS    =  4UL,             // 0: de-assert (no reset)
-                                                     // 1: assert (held in reset)
+                                                         // Properties: Bit: 4, Type: rw, Reset Value: 0x0
+    GEM_RST_CTRL_GEM0_RX_RST_MASK    =  0x00000010UL,    // Gigabit Ethernet 0 Rx clock domain reset:
+    GEM_RST_CTRL_GEM0_RX_RST_BPOS    =  4UL,             // 0: de-assert (no reset)
+                                                         // 1: assert (held in reset)
 
-// RESERVED                                             Properties: Bits: 3:2, Type: rw, Reset Value: 0x0
+// RESERVED                                                 Properties: Bits: 3:2, Type: rw, Reset Value: 0x0
 
-                                                     // Properties: Bit: 1, Type: rw, Reset Value: 0x0
-    RST_CTRL_GEM1_CPU1X_RST_MASK =  0x00000002UL,    // Gigabit Ethernet 1 CPU_1x clock domain reset:
-    RST_CTRL_GEM1_CPU1X_RST_BPOS =  1UL,             // 0: de-assert (no reset)
-                                                     // 1: assert (held in reset)
+                                                         // Properties: Bit: 1, Type: rw, Reset Value: 0x0
+    GEM_RST_CTRL_GEM1_CPU1X_RST_MASK =  0x00000002UL,    // Gigabit Ethernet 1 CPU_1x clock domain reset:
+    GEM_RST_CTRL_GEM1_CPU1X_RST_BPOS =  1UL,             // 0: de-assert (no reset)
+                                                         // 1: assert (held in reset)
 
-                                                     // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    RST_CTRL_GEM0_CPU1X_RST_MASK =  0x00000001UL,    // Gigabit Ethernet 0 CPU_1x clock domain reset:
-    RST_CTRL_GEM0_CPU1X_RST_BPOS =  0UL              // 0: de-assert (no reset)
-                                                     // 1: assert (held in reset)
+                                                         // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    GEM_RST_CTRL_GEM0_CPU1X_RST_MASK =  0x00000001UL,    // Gigabit Ethernet 0 CPU_1x clock domain reset:
+    GEM_RST_CTRL_GEM0_CPU1X_RST_BPOS =  0UL              // 0: de-assert (no reset)
+                                                         // 1: assert (held in reset)
 
 };
 
@@ -2368,13 +2368,13 @@ enum TSDIO_RST_CTRL_REG
 
                                                            // Properties: Bit: 1, Type: rw, Reset Value: 0x0
     SDIO_RST_CTRL_SDIO1_CPU1X_RST_MASK =  0x00000002UL,    // SDIO 1 master and slave AMBA interfaces reset:
-    SDIO_RST_CTRL_SDIO1_CPU1X_RST_BPOS =  1UL,             // : de-assert (no reset)
-                                                           // : assert (held in reset)
+    SDIO_RST_CTRL_SDIO1_CPU1X_RST_BPOS =  1UL,             // 0: de-assert (no reset)
+                                                           // 1: assert (held in reset)
 
                                                            // Properties: Bit: 0, Type: rw, Reset Value: 0x0
     SDIO_RST_CTRL_SDIO0_CPU1X_RST_MASK =  0x00000001UL,    // SDIO 0 master and slave AMBA interfaces reset:
-    SDIO_RST_CTRL_SDIO0_CPU1X_RST_BPOS =  0UL              // : de-assert (no reset)
-                                                           // : assert (held in reset)
+    SDIO_RST_CTRL_SDIO0_CPU1X_RST_BPOS =  0UL              // 0: de-assert (no reset)
+                                                           // 1: assert (held in reset)
 
 };
 
@@ -2554,9 +2554,9 @@ enum TUART_RST_CTRL_REG
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) RST_CTRL
+// Register (SLCR) GPIO_RST_CTRL
 //
-// Name                    GPIO_RST_CTRL_REG_REG
+// Name                    GPIO_RST_CTRL_REG
 // Relative Address        0x0000022C
 // Absolute Address        0xF800022C
 // Width                   32 bits
@@ -2564,15 +2564,15 @@ enum TUART_RST_CTRL_REG
 // Reset Value             0x00000000
 // Description             GPIO Software Reset Control
 //
-// Register GPIO_RST_CTRL_REG_REG Details
+// Register GPIO_RST_CTRL_REG Details
 //
-enum TGPIO_RST_CTRL_REG_REG
+enum TGPIO_RST_CTRL_REG
 {
 // RESERVED                                             Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
                                                      // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    RST_CTRL_GPIO_CPU1X_RST_MASK =  0x00000001UL,    // GPIO AMBA software reset. On assertion of this
-    RST_CTRL_GPIO_CPU1X_RST_BPOS =  0UL              // reset, the AMBA clock portion of the GPIO
+    GPIO_RST_CTRL_CPU1X_RST_MASK =  0x00000001UL,    // GPIO AMBA software reset. On assertion of this
+    GPIO_RST_CTRL_CPU1X_RST_BPOS =  0UL              // reset, the AMBA clock portion of the GPIO
                                                      // subsystem will be reset.
                                                      // 0: No reset
                                                      // 1: AMBA clock portion of GPIO subsytem held in
@@ -2582,9 +2582,9 @@ enum TGPIO_RST_CTRL_REG_REG
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) LQSPI_RST_CTRL
+// Register (SLCR) QSPI_RST_CTRL
 //
-// Name                    LQSPI_RST_CTRL_REG
+// Name                    QSPI_RST_CTRL_REG
 // Relative Address        0x00000230
 // Absolute Address        0xF8000230
 // Width                   32 bits
@@ -2592,27 +2592,27 @@ enum TGPIO_RST_CTRL_REG_REG
 // Reset Value             0x00000000
 // Description             Quad SPI Software Reset Control
 //
-// Register LQSPI_RST_CTRL_REG Details
+// Register QSPI_RST_CTRL_REG Details
 //
-enum TLQSPI_RST_CTRL_REG
+enum TQSPI_RST_CTRL_REG
 {
-// RESERVED                                                    Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
+// RESERVED                                             Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
 
-                                                            // Properties: Bit: 1, Type: rw, Reset Value: 0x0
-    LQSPI_RST_CTRL_QSPI_REF_RST_MASK    =  0x00000002UL,    // Quad SPI Reference software reset. On assertion
-    LQSPI_RST_CTRL_QSPI_REF_RST_BPOS    =  1UL,             // of this reset, the Reference clock portion of the
-                                                            // QSPI subsystem will be reset.
-                                                            // 0: No reset.
-                                                            // 1: Reference clock portion of QSPI subsytem held
-                                                            // in reset.
+                                                     // Properties: Bit: 1, Type: rw, Reset Value: 0x0
+    QSPI_RST_CTRL_REF_RST_MASK   =  0x00000002UL,    // Quad SPI Reference software reset. On assertion
+    QSPI_RST_CTRL_REF_RST_BPOS   =  1UL,             // of this reset, the Reference clock portion of the
+                                                     // QSPI subsystem will be reset.
+                                                     // 0: No reset.
+                                                     // 1: Reference clock portion of QSPI subsytem held
+                                                     // in reset.
 
-                                                            // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    LQSPI_RST_CTRL_LQSPI_CPU1X_RST_MASK =  0x00000001UL,    // Quad SPI AMBA software reset. On assertion of
-    LQSPI_RST_CTRL_LQSPI_CPU1X_RST_BPOS =  0UL              // this reset, the AMBA clock portion of the LQSPI
-                                                            // subsystem will be reset.
-                                                            // 0: No reset
-                                                            // 1: AMBA clock portion of QSPI subsytem held in
-                                                            // reset
+                                                     // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    QSPI_RST_CTRL_CPU1X_RST_MASK =  0x00000001UL,    // Quad SPI AMBA software reset. On assertion of
+    QSPI_RST_CTRL_CPU1X_RST_BPOS =  0UL              // this reset, the AMBA clock portion of the QSPI
+                                                     // subsystem will be reset.
+                                                     // 0: No reset
+                                                     // 1: AMBA clock portion of QSPI subsytem held in
+                                                     // reset
 
 };
 
@@ -2632,23 +2632,23 @@ enum TLQSPI_RST_CTRL_REG
 //
 enum TSMC_RST_CTRL_REG
 {
-// RESERVED                                                Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
+// RESERVED                                            Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
 
-                                                        // Properties: Bit: 1, Type: rw, Reset Value: 0x0
-    SMC_RST_CTRL_SMC_REF_RST_MASK   =  0x00000002UL,    // SMC Reference software reset. On assertion of this
-    SMC_RST_CTRL_SMC_REF_RST_BPOS   =  1UL,             // reset, the Reference clock portion of the SMC
-                                                        // subsystem will be reset.
-                                                        // 0: No reset
-                                                        // 1: Reference clock portion of SMC subsytem held
-                                                        // in reset
+                                                    // Properties: Bit: 1, Type: rw, Reset Value: 0x0
+    SMC_RST_CTRL_REF_RST_MASK   =  0x00000002UL,    // SMC Reference software reset. On assertion of this
+    SMC_RST_CTRL_REF_RST_BPOS   =  1UL,             // reset, the Reference clock portion of the SMC
+                                                    // subsystem will be reset.
+                                                    // 0: No reset
+                                                    // 1: Reference clock portion of SMC subsytem held
+                                                    // in reset
 
-                                                        // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    SMC_RST_CTRL_SMC_CPU1X_RST_MASK =  0x00000001UL,    // SMC AMBA software reset. On assertion of this
-    SMC_RST_CTRL_SMC_CPU1X_RST_BPOS =  0UL              // reset, the AMBA clock portion of the SMC
-                                                        // subsystem will be reset.
-                                                        // 0: No reset
-                                                        // 1: AMBA clock portion of SMC subsytem held in
-                                                        // reset
+                                                    // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    SMC_RST_CTRL_CPU1X_RST_MASK =  0x00000001UL,    // SMC AMBA software reset. On assertion of this
+    SMC_RST_CTRL_CPU1X_RST_BPOS =  0UL              // reset, the AMBA clock portion of the SMC
+                                                    // subsystem will be reset.
+                                                    // 0: No reset
+                                                    // 1: AMBA clock portion of SMC subsytem held in
+                                                    // reset
 
 };
 
@@ -2668,13 +2668,13 @@ enum TSMC_RST_CTRL_REG
 //
 enum TOCM_RST_CTRL_REG
 {
-// RESERVED                                          Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
+// RESERVED                                      Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
-                                                  // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    OCM_RST_CTRL_OCM_RST_MASK =  0x00000001UL,    // OCM software reset. On assertion of this reset, the
-    OCM_RST_CTRL_OCM_RST_BPOS =  0UL              // OCM subsystem will be reset.
-                                                  // 0: No reset
-                                                  // 1: OCM subsytem held in reset
+                                              // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    OCM_RST_CTRL_RST_MASK =  0x00000001UL,    // OCM software reset. On assertion of this reset, the
+    OCM_RST_CTRL_RST_BPOS =  0UL              // OCM subsystem will be reset.
+                                              // 0: No reset
+                                              // 1: OCM subsytem held in reset
 
 };
 
@@ -2813,9 +2813,9 @@ enum TA9_CPU_RST_CTRL_REG
 
 //------------------------------------------------------------------------------
 //
-// Register (SLCR) RS_AWDT_CTRL
+// Register (SLCR) AWDT_RST_CTRL
 //
-// Name                    RS_AWDT_CTRL_REG
+// Name                    AWDT_RST_CTRL_REG
 // Relative Address        0x0000024C
 // Absolute Address        0xF800024C
 // Width                   32 bits
@@ -2825,21 +2825,21 @@ enum TA9_CPU_RST_CTRL_REG
 //
 // Register RS_AWDT_CTRL_REG Details
 //
-enum TRS_AWDT_CTRL_REG
+enum TAWDT_RST_CTRL_REG
 {
-// RESERVED                                        Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
+// RESERVED                                         Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
 
-                                                // Properties: Bit: 1, Type: rw, Reset Value: 0x0
-    RS_AWDT_CTRL_CTRL1_MASK =  0x00000002UL,    // Select the target for the APU watchdog timer 1
-    RS_AWDT_CTRL_CTRL1_BPOS =  1UL,             // reset signal. Route the WDT reset to:
-                                                // 0: the same system level as PS_SRST_B
-                                                // 1: the CPU associated with the watchdog timer
+                                                 // Properties: Bit: 1, Type: rw, Reset Value: 0x0
+    AWDT_RST_CTRL_CTRL1_MASK =  0x00000002UL,    // Select the target for the APU watchdog timer 1
+    AWDT_RST_CTRL_CTRL1_BPOS =  1UL,             // reset signal. Route the WDT reset to:
+                                                 // 0: the same system level as PS_SRST_B
+                                                 // 1: the CPU associated with the watchdog timer
 
-                                                // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    RS_AWDT_CTRL_CTRL0_MASK =  0x00000001UL,    // Select the target for the APU watchdog timer 0
-    RS_AWDT_CTRL_CTRL0_BPOS =  0UL              // reset signal. Route the WDT reset to:
-                                                // 0: the same system level as PS_SRST_B
-                                                // 1: the CPU associated with the watchdog timer
+                                                 // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    AWDT_RST_CTRL_CTRL0_MASK =  0x00000001UL,    // Select the target for the APU watchdog timer 0
+    AWDT_RST_CTRL_CTRL0_BPOS =  0UL              // reset signal. Route the WDT reset to:
+                                                 // 0: the same system level as PS_SRST_B
+                                                 // 1: the CPU associated with the watchdog timer
 
 };
 
@@ -3000,8 +3000,8 @@ enum TWDT_CLK_SEL_REG
 // RESERVED                                     Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
                                              // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    WDT_CLK_SEL_SEL_MASK =  0x00000001UL,    // System watchdog timer clock source selection:
-    WDT_CLK_SEL_SEL_BPOS =  0UL              // 0: internal clock CPU_1x
+    WDT_CLK_SEL_VAL_MASK =  0x00000001UL,    // System watchdog timer clock source selection:
+    WDT_CLK_SEL_VAL_BPOS =  0UL              // 0: internal clock CPU_1x
                                              // 1: external clock from PL via EMIO, or from
                                              // pinout via MIO
 
@@ -3023,14 +3023,14 @@ enum TWDT_CLK_SEL_REG
 //
 enum TTZ_DMA_NS_REG
 {
-// RESERVED                                       Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
+// RESERVED                                   Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
-                                               // Properties: Bit: 0, Type: rw, Reset Value: 0x0
-    TZ_DMA_NS_DMAC_NS_MASK =  0x00000001UL,    // TZ security (connected to boot_manager_ns on
-    TZ_DMA_NS_DMAC_NS_BPOS =  0UL              // DMAC):
-                                               // 0: secure, DMAC operates in the secure state.
-                                               // 1: non-secure, DMAC operates in the non-secure
-                                               // state.
+                                           // Properties: Bit: 0, Type: rw, Reset Value: 0x0
+    TZ_DMA_NS_VAL_MASK =  0x00000001UL,    // TZ security (connected to boot_manager_ns on
+    TZ_DMA_NS_VAL_BPOS =  0UL              // DMAC):
+                                           // 0: secure, DMAC operates in the secure state.
+                                           // 1: non-secure, DMAC operates in the non-secure
+                                           // state.
 
 };
 
@@ -3050,13 +3050,13 @@ enum TTZ_DMA_NS_REG
 //
 enum TTZ_DMA_IRQ_NS_REG
 {
-// RESERVED                                              Properties: Bits: 31:16, Type: rw, Reset Value: 0x0
+// RESERVED                                       Properties: Bits: 31:16, Type: rw, Reset Value: 0x0
 
-                                                      // Properties: Bits: 15:0, Type: rw, Reset Value: 0x0
-    TZ_DMA_IRQ_NS_DMA_IRQ_NS_MASK =  0x0000FFFFUL,    // TZ security (connected to boot_irq_ns on DMAC):
-    TZ_DMA_IRQ_NS_DMA_IRQ_NS_BPOS =  0UL              // 0: secure, DMAC operates in the secure state.
-                                                      // 1: non-secure, DMAC interrupt/event bit is in the
-                                                      // non-secure state.
+                                               // Properties: Bits: 15:0, Type: rw, Reset Value: 0x0
+    TZ_DMA_IRQ_NS_VAL_MASK =  0x0000FFFFUL,    // TZ security (connected to boot_irq_ns on DMAC):
+    TZ_DMA_IRQ_NS_VAL_BPOS =  0UL              // 0: secure, DMAC operates in the secure state.
+                                               // 1: non-secure, DMAC interrupt/event bit is in the
+                                               // non-secure state.
 
 };
 
@@ -3076,14 +3076,14 @@ enum TTZ_DMA_IRQ_NS_REG
 //
 enum TTZ_DMA_PERIPH_NS_REG
 {
-// RESERVED                                                     Properties: Bits: 31:4, Type: rw, Reset Value: 0x0
+// RESERVED                                          Properties: Bits: 31:4, Type: rw, Reset Value: 0x0
 
-                                                             // Properties: Bits: 3:0, Type: rw, Reset Value: 0x0
-    TZ_DMA_PERIPH_NS_DMAC_PERIPH_NS_MASK =  0x0000000FUL,    // TZ security (connected to boot_periph_ns on
-    TZ_DMA_PERIPH_NS_DMAC_PERIPH_NS_BPOS =  0UL              // DMAC):
-                                                             // 0: secure, DMAC operates in the secure state.
-                                                             // 1: non-secure, reset value: DMAC peripheral i/f is
-                                                             // in the non-secure state.
+                                                  // Properties: Bits: 3:0, Type: rw, Reset Value: 0x0
+    TZ_DMA_PERIPH_NS_VAL_MASK =  0x0000000FUL,    // TZ security (connected to boot_periph_ns on
+    TZ_DMA_PERIPH_NS_VAL_BPOS =  0UL              // DMAC):
+                                                  // 0: secure, DMAC operates in the secure state.
+                                                  // 1: non-secure, reset value: DMAC peripheral i/f is
+                                                  // in the non-secure state.
 
 };
 
@@ -3117,16 +3117,16 @@ enum TPSS_IDCODE_REG
 
                                                         // Properties: Bits: 16:12, Type: ro, Reset Value: x
     PSS_IDCODE_DEVICE_MASK          =  0x0001F000UL,    // Device code
-    PSS_IDCODE_DEVICE_BPOS          =  12UL,            // z007s: 0x03
-                                                        // z012s: 0x1c
-                                                        // z014s: 0x08
-                                                        // z010: 0x02
-                                                        // z015: 0x1b
-                                                        // z020: 0x07
-                                                        // z030: 0x0c
-                                                        // z035: 0x12
-                                                        // z045: 0x11
-                                                        // z100: 0x16
+    PSS_IDCODE_DEVICE_BPOS          =  12UL,            // 7z007s: 0x03
+                                                        // 7z012s: 0x1c
+                                                        // 7z014s: 0x08
+                                                        // 7z010: 0x02
+                                                        // 7z015: 0x1b
+                                                        // 7z020: 0x07
+                                                        // 7z030: 0x0c
+                                                        // 7z035: 0x12
+                                                        // 7z045: 0x11
+                                                        // 7z100: 0x16
 
                                                         // Properties: Bits: 11:1, Type: ro, Reset Value: 0x49
     PSS_IDCODE_MANUFACTURER_ID_MASK =  0x00000FFEUL,    // Manufacturer ID
@@ -3204,42 +3204,42 @@ enum TDDR_URGENT_REG
 //
 enum TDDR_CAL_START_REG
 {
-// RESERVED                                                   Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
+// RESERVED                                         Properties: Bits: 31:2, Type: rw, Reset Value: 0x0
 
-                                                           // Properties: Bit: 1, Type: wo, Reset Value: 0x0
-    DDR_CAL_START_START_CAL_DLL_MASK   =  0x00000002UL,    // This register creates a pulse that is first
-    DDR_CAL_START_START_CAL_DLL_BPOS   =  1UL,             // synchronised into the ddr_clk domain and then
-                                                           // directly drives the co_gs_dll_calib input into the
-                                                           // DDR controller. This signal is a command that
-                                                           // indicates to the controller to issue a dll_calib to the
-                                                           // DRAM. This signal should pulse for 1
-                                                           // ddrc_core_clk clock cycle to request a dll_calib to
-                                                           // be issued. This is only required if the DDR
-                                                           // controller register dis_dll_calib          is 1. If
-                                                           // dis_dll_calib          is 0, the controller will
-                                                           // automatically issue DLL Calibs.
-                                                           // 0: Do nothing.
-                                                           // 1: Start DLL calibration command.
-                                                           // A read of this register returns zero.
+                                                 // Properties: Bit: 1, Type: wo, Reset Value: 0x0
+    DDR_CAL_START_DLL_MASK   =  0x00000002UL,    // This register creates a pulse that is first
+    DDR_CAL_START_DLL_BPOS   =  1UL,             // synchronised into the ddr_clk domain and then
+                                                 // directly drives the co_gs_dll_calib input into the
+                                                 // DDR controller. This signal is a command that
+                                                 // indicates to the controller to issue a dll_calib to the
+                                                 // DRAM. This signal should pulse for 1
+                                                 // ddrc_core_clk clock cycle to request a dll_calib to
+                                                 // be issued. This is only required if the DDR
+                                                 // controller register dis_dll_calib          is 1. If
+                                                 // dis_dll_calib          is 0, the controller will
+                                                 // automatically issue DLL Calibs.
+                                                 // 0: Do nothing.
+                                                 // 1: Start DLL calibration command.
+                                                 // A read of this register returns zero.
 
-                                                           // Properties: Bit: 0, Type: wo, Reset Value: 0x0
-    DDR_CAL_START_START_CAL_SHORT_MASK =  0x00000001UL,    // This register creates a pulse that is first
-    DDR_CAL_START_START_CAL_SHORT_BPOS =  0UL              // synchronized into the ddr_clk domain and then
-                                                           // directly drives the co_gs_zq_calib_short input
-                                                           // into the DDR controller. This is required to pulse
-                                                           // for 1 clock to issue ZQ Calibration Short
-                                                           // Command to the DDR. There should be a
-                                                           // minimum of 512 clks gap between 2 ZQ Calib
-                                                           // Short commands from the core. If DDR controller
-                                                           // register reg_ddrc_dis_auto_zq=0, asserting
-                                                           // co_gs_zq_calib_short is not required, as this will
-                                                           // be done automatically. If
-                                                           // reg_ddrc_dis_auto_zq=1, then the core logic is
-                                                           // required to assert co_gs_zq_calib_short
-                                                           // periodically to update DDR3 ZQ calibration.
-                                                           // 0: Do nothing.
-                                                           // 1: Start ZQ calibration short command.
-                                                           // A read of this register returns zero.
+                                                 // Properties: Bit: 0, Type: wo, Reset Value: 0x0
+    DDR_CAL_START_SHORT_MASK =  0x00000001UL,    // This register creates a pulse that is first
+    DDR_CAL_START_SHORT_BPOS =  0UL              // synchronized into the ddr_clk domain and then
+                                                 // directly drives the co_gs_zq_calib_short input
+                                                 // into the DDR controller. This is required to pulse
+                                                 // for 1 clock to issue ZQ Calibration Short
+                                                 // Command to the DDR. There should be a
+                                                 // minimum of 512 clks gap between 2 ZQ Calib
+                                                 // Short commands from the core. If DDR controller
+                                                 // register reg_ddrc_dis_auto_zq=0, asserting
+                                                 // co_gs_zq_calib_short is not required, as this will
+                                                 // be done automatically. If
+                                                 // reg_ddrc_dis_auto_zq=1, then the core logic is
+                                                 // required to assert co_gs_zq_calib_short
+                                                 // periodically to update DDR3 ZQ calibration.
+                                                 // 0: Do nothing.
+                                                 // 1: Start ZQ calibration short command.
+                                                 // A read of this register returns zero.
 
 };
 
@@ -3259,23 +3259,23 @@ enum TDDR_CAL_START_REG
 //
 enum TDDR_REF_START_REG
 {
-// RESERVED                                             Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
+// RESERVED                                       Properties: Bits: 31:1, Type: rw, Reset Value: 0x0
 
-                                                     // Properties: Bit: 0, Type: wo, Reset Value: 0x0
-    DDR_REF_START_START_REF_MASK =  0x00000001UL,    // This register creates a pulse that is first
-    DDR_REF_START_START_REF_BPOS =  0UL              // synchronized into the ddr_clk domain and then
-                                                     // directly drives the co_gs_rank_refresh input into
-                                                     // the DDR controller. This register must be used
-                                                     // with the Virage DRAM controller register bit
-                                                     // reg_ddrc_dis_auto_refresh.
-                                                     // This signal is a command that indicates to the
-                                                     // controller to issue a refresh to the DRAM. One bit
-                                                     // per rank. This signal should pulse for 1
-                                                     // ddrc_core_clk clock cycle to request a refresh to be
-                                                     // issued.
-                                                     // 0: Do nothing.
-                                                     // 1: Start refresh.
-                                                     // A read of this register returns zero.
+                                               // Properties: Bit: 0, Type: wo, Reset Value: 0x0
+    DDR_REF_START_VAL_MASK =  0x00000001UL,    // This register creates a pulse that is first
+    DDR_REF_START_VAL_BPOS =  0UL              // synchronized into the ddr_clk domain and then
+                                               // directly drives the co_gs_rank_refresh input into
+                                               // the DDR controller. This register must be used
+                                               // with the Virage DRAM controller register bit
+                                               // reg_ddrc_dis_auto_refresh.
+                                               // This signal is a command that indicates to the
+                                               // controller to issue a refresh to the DRAM. One bit
+                                               // per rank. This signal should pulse for 1
+                                               // ddrc_core_clk clock cycle to request a refresh to be
+                                               // issued.
+                                               // 0: Do nothing.
+                                               // 1: Start refresh.
+                                               // A read of this register returns zero.
 
 };
 
@@ -7577,7 +7577,7 @@ enum TRESERVED
 //
 // Register (SLCR) GPIOB_CTRL
 //
-// Name                    GPIOB_CTRL_REG_REG
+// Name                    GPIOB_CTRL_REG
 // Relative Address        0x00000B00
 // Absolute Address        0xF8000B00
 // Width                   32 bits
@@ -7585,9 +7585,9 @@ enum TRESERVED
 // Reset Value             0x00000000
 // Description             PS IO Buffer Control
 //
-// Register GPIOB_CTRL_REG_REG Details
+// Register GPIOB_CTRL_REG Details
 //
-enum TGPIOB_CTRL_REG_REG
+enum TGPIOB_CTRL_REG
 {
 // RESERVED                                           Properties: Bits: 31:12, Type: rw, Reset Value: 0x0
 
@@ -7626,7 +7626,7 @@ enum TGPIOB_CTRL_REG_REG
 //
 // Register (SLCR) GPIOB_CFG_CMOS18
 //
-// Name                    GPIOB_CFG_CMOS18_REG_REG
+// Name                    GPIOB_CFG_CMOS18_REG
 // Relative Address        0x00000B04
 // Absolute Address        0xF8000B04
 // Width                   32 bits
@@ -7634,10 +7634,10 @@ enum TGPIOB_CTRL_REG_REG
 // Reset Value             0x00000000
 // Description             MIO GPIOB CMOS 1.8V config
 //
-// Register GPIOB_CFG_CMOS18_REG_REG Details
+// Register GPIOB_CFG_CMOS18_REG Details
 //         The only allowed values for this register are 0x00000000 (reset value) and 0x0C301166 (normal operation)
 //
-enum TGPIOB_CFG_CMOS18_REG_REG
+enum TGPIOB_CFG_CMOS18_REG
 {
 // RESERVED                              Properties: Bits: 31:28, Type: rw, Reset Value: 0x0
 
@@ -7663,7 +7663,7 @@ enum TGPIOB_CFG_CMOS18_REG_REG
 //
 // Register (SLCR) GPIOB_CFG_CMOS25
 //
-// Name                    GPIOB_CFG_CMOS25_REG_REG
+// Name                    GPIOB_CFG_CMOS25_REG
 // Relative Address        0x00000B08
 // Absolute Address        0xF8000B08
 // Width                   32 bits
@@ -7671,10 +7671,10 @@ enum TGPIOB_CFG_CMOS18_REG_REG
 // Reset Value             0x00000000
 // Description             MIO GPIOB CMOS 2.5V config
 //
-// Register GPIOB_CFG_CMOS25_REG_REG Details
+// Register GPIOB_CFG_CMOS25_REG Details
 //         The only allowed values for this register are 0x00000000 (reset value) and 0x0C301100 (normal operation)
 //
-enum TGPIOB_CFG_CMOS25_REG_REG
+enum TGPIOB_CFG_CMOS25_REG
 {
 // RESERVED                              Properties: Bits: 31:28, Type: rw, Reset Value: 0x0
 
@@ -7700,7 +7700,7 @@ enum TGPIOB_CFG_CMOS25_REG_REG
 //
 // Register (SLCR) GPIOB_CFG_CMOS33
 //
-// Name                    GPIOB_CFG_CMOS33_REG_REG
+// Name                    GPIOB_CFG_CMOS33_REG
 // Relative Address        0x00000B0C
 // Absolute Address        0xF8000B0C
 // Width                   32 bits
@@ -7708,10 +7708,10 @@ enum TGPIOB_CFG_CMOS25_REG_REG
 // Reset Value             0x00000000
 // Description             MIO GPIOB CMOS 3.3V config
 //
-// Register GPIOB_CFG_CMOS33_REG_REG Details
+// Register GPIOB_CFG_CMOS33_REG Details
 //         The only allowed values for this register are 0x00000000 (reset value) and 0x0C301166 (normal operation)
 //
-enum TGPIOB_CFG_CMOS33_REG_REG
+enum TGPIOB_CFG_CMOS33_REG
 {
 // RESERVED                              Properties: Bits: 31:28, Type: rw, Reset Value: 0x0
 
@@ -7737,7 +7737,7 @@ enum TGPIOB_CFG_CMOS33_REG_REG
 //
 // Register (SLCR) GPIOB_CFG_HSTL
 //
-// Name                    GPIOB_CFG_HSTL_REG_REG
+// Name                    GPIOB_CFG_HSTL_REG
 // Relative Address        0x00000B14
 // Absolute Address        0xF8000B14
 // Width                   32 bits
@@ -7745,13 +7745,13 @@ enum TGPIOB_CFG_CMOS33_REG_REG
 // Reset Value             0x00000000
 // Description             MIO GPIOB HSTL config
 //
-// Register GPIOB_CFG_HSTL_REG_REG Details
+// Register GPIOB_CFG_HSTL_REG Details
 //         The only allowed values for this register are 0x00000000 (reset value) and 0x0C750077 (normal operation).
 //         You must provide a VREF or use the internal VREF generator.
 //         When setting the input to HSTL, you must ensure that
 //         VCCO_MIO is below 1.8V. If not, this will lead to long term damage to the IO.
 //
-enum TGPIOB_CFG_HSTL_REG_REG
+enum TGPIOB_CFG_HSTL_REG
 {
 // RESERVED                              Properties: Bits: 31:28, Type: rw, Reset Value: 0x0
 
@@ -7777,7 +7777,7 @@ enum TGPIOB_CFG_HSTL_REG_REG
 //
 // Register (SLCR) GPIOB_DRVR_BIAS_CTRL
 //
-// Name                    GPIOB_DRVR_BIAS_CTRL_REG_REG
+// Name                    GPIOB_DRVR_BIAS_CTRL_REG
 // Relative Address        0x00000B18
 // Absolute Address        0xF8000B18
 // Width                   32 bits
@@ -7785,9 +7785,9 @@ enum TGPIOB_CFG_HSTL_REG_REG
 // Reset Value             0x00000000
 // Description             MIO GPIOB Driver Bias Control
 //
-// Register GPIOB_DRVR_BIAS_CTRL_REG_REG Details
+// Register GPIOB_DRVR_BIAS_CTRL_REG Details
 //
-enum TGPIOB_DRVR_BIAS_CTRL_REG_REG
+enum TGPIOB_DRVR_BIAS_CTRL_REG
 {
                                                                // Properties: Bit: 31, Type: ro, Reset Value: 0x0
     GPIOB_DRVR_BIAS_CTRL_RB_VCFG_MASK      =  0x80000000UL,    // Right Bank VCFG (Read Only)

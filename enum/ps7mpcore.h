@@ -151,8 +151,8 @@ enum TMPCORE
     GIC_ICDIPTR21              =  MPCORE_ADDR + 0x00001854, //  32    rw    0x00000000    Interrupt Processor Targets Register 21
     GIC_ICDIPTR22              =  MPCORE_ADDR + 0x00001858, //  32    rw    0x00000000    Interrupt Processor Targets Register 22
     GIC_ICDIPTR23              =  MPCORE_ADDR + 0x0000185C, //  32    rw    0x00000000    Interrupt Processor Targets Register 23
-    GIC_ICDICFR0               =  MPCORE_ADDR + 0x00001C00, //  32    ro    0x00000000    Interrupt Configuration Register 0
-    GIC_ICDICFR1               =  MPCORE_ADDR + 0x00001C04, //  32    rw    0x00000000    Interrupt Configuration Register 1
+    GIC_ICDICFR0               =  MPCORE_ADDR + 0x00001C00, //  32    ro    0xAAAAAAAA    Interrupt Configuration Register 0
+    GIC_ICDICFR1               =  MPCORE_ADDR + 0x00001C04, //  32    ro    0x7DC00000    Interrupt Configuration Register 1
     GIC_ICDICFR2               =  MPCORE_ADDR + 0x00001C08, //  32    rw    0x00000000    Interrupt Configuration Register 2
     GIC_ICDICFR3               =  MPCORE_ADDR + 0x00001C0C, //  32    rw    0x00000000    Interrupt Configuration Register 3
     GIC_ICDICFR4               =  MPCORE_ADDR + 0x00001C10, //  32    rw    0x00000000    Interrupt Configuration Register 4
@@ -3035,7 +3035,7 @@ enum TGIC_ICDIPTR23
 // Absolute Address        0xF8F01C00
 // Width                   32 bits
 // Access Type             ro
-// Reset Value             0x00000000
+// Reset Value             0xAAAAAAAA
 // Description             Interrupt Configuration Register 0
 //
 // Register GIC_ICDICFR0 Details
@@ -3136,8 +3136,8 @@ enum TGIC_ICDICFR0
 // Relative Address         0x00001C04
 // Absolute Address         0xF8F01C04
 // Width                    32 bits
-// Access Type              rw
-// Reset Value              0x00000000
+// Access Type              ro
+// Reset Value              0x7DC00000
 // Description              Interrupt Configuration Register 1
 //
 // Register GIC_ICDICFR1 Details
@@ -3150,29 +3150,29 @@ enum TGIC_ICDICFR0
 //
 enum TGIC_ICDICFR1
 {
-                                                    // Properties: Bits: 31:30, Type: rw, Reset Value: 0x0
+                                                    // Properties: Bits: 31:30, Type: ro, Reset Value: 0x0
     GIC_ICDICFR1_CONFIG_31_MASK =  0xC0000000UL,    // Configuration for interrupt ID#31 (nIRQ)
     GIC_ICDICFR1_CONFIG_31_BPOS =  30UL,            // 01: low-level active
 
-                                                    // Properties: Bits: 29:28, Type: rw, Reset Value: 0x0
+                                                    // Properties: Bits: 29:28, Type: ro, Reset Value: 0x0
     GIC_ICDICFR1_CONFIG_30_MASK =  0x30000000UL,    // Configuration for interrupt ID#30 (CPU
     GIC_ICDICFR1_CONFIG_30_BPOS =  28UL,            // watchdog timer)
                                                     // 11: edge sensitive
 
-                                                    // Properties: Bits: 27:26, Type: rw, Reset Value: 0x0
+                                                    // Properties: Bits: 27:26, Type: ro, Reset Value: 0x0
     GIC_ICDICFR1_CONFIG_29_MASK =  0x0C000000UL,    // Configuration for interrupt ID#29 (CPU private
     GIC_ICDICFR1_CONFIG_29_BPOS =  26UL,            // timer)
                                                     // 11: edge sensitive
 
-                                                    // Properties: Bits: 25:24, Type: rw, Reset Value: 0x0
+                                                    // Properties: Bits: 25:24, Type: ro, Reset Value: 0x0
     GIC_ICDICFR1_CONFIG_28_MASK =  0x03000000UL,    // Configuration for interrupt ID#28 (nFIQ)
     GIC_ICDICFR1_CONFIG_28_BPOS =  24UL,            // 01: low-level active
 
-                                                    // Properties: Bits: 23:22, Type: rw, Reset Value: 0x0
+                                                    // Properties: Bits: 23:22, Type: ro, Reset Value: 0x0
     GIC_ICDICFR1_CONFIG_27_MASK =  0x00C00000UL,    // Configuration for interrupt ID#27 (global timer)
     GIC_ICDICFR1_CONFIG_27_BPOS =  22UL,            // 11: edge sensitive
 
-// RESERVED                                            Properties: Bits: 21:0, Type: rw, Reset Value: 0x0
+// RESERVED                                            Properties: Bits: 21:0, Type: ro, Reset Value: 0x0
 
 };
 

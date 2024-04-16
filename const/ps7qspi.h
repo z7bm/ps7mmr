@@ -83,8 +83,8 @@ const uintptr_t QSPI_LQSPI_STS_REG        = QSPI_ADDR + 0x000000A4; //   9    rw
 // Register QSPI_CONFIG_REG Details
 //
                                                          // Properties: Bit: 31, Type: rw, Reset Value: 0x1
-const uintptr_t QSPI_LEG_FLSH_MASK      = 0x80000000;    // Flash memory interface mode control:
-const uintptr_t QSPI_LEG_FLSH_BPOS      = 31;            // 0: legacy SPI mode
+const uintptr_t QSPI_IFMODE_MASK        = 0x80000000;    // Flash memory interface mode control:
+const uintptr_t QSPI_IFMODE_BPOS        = 31;            // 0: legacy SPI mode
                                                          // 1: Flash memory interface mode
                                                          // This control is required to enable or disable
                                                          // automatic recognition of instruction bytes in the

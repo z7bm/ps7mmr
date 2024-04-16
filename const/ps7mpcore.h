@@ -149,8 +149,8 @@ const uintptr_t GIC_ICDIPTR20              = MPCORE_ADDR + 0x00001850; //  32   
 const uintptr_t GIC_ICDIPTR21              = MPCORE_ADDR + 0x00001854; //  32    rw    0x00000000    Interrupt Processor Targets Register 21
 const uintptr_t GIC_ICDIPTR22              = MPCORE_ADDR + 0x00001858; //  32    rw    0x00000000    Interrupt Processor Targets Register 22
 const uintptr_t GIC_ICDIPTR23              = MPCORE_ADDR + 0x0000185C; //  32    rw    0x00000000    Interrupt Processor Targets Register 23
-const uintptr_t GIC_ICDICFR0               = MPCORE_ADDR + 0x00001C00; //  32    ro    0x00000000    Interrupt Configuration Register 0
-const uintptr_t GIC_ICDICFR1               = MPCORE_ADDR + 0x00001C04; //  32    rw    0x00000000    Interrupt Configuration Register 1
+const uintptr_t GIC_ICDICFR0               = MPCORE_ADDR + 0x00001C00; //  32    ro    0xAAAAAAAA    Interrupt Configuration Register 0
+const uintptr_t GIC_ICDICFR1               = MPCORE_ADDR + 0x00001C04; //  32    ro    0x7DC00000    Interrupt Configuration Register 1
 const uintptr_t GIC_ICDICFR2               = MPCORE_ADDR + 0x00001C08; //  32    rw    0x00000000    Interrupt Configuration Register 2
 const uintptr_t GIC_ICDICFR3               = MPCORE_ADDR + 0x00001C0C; //  32    rw    0x00000000    Interrupt Configuration Register 3
 const uintptr_t GIC_ICDICFR4               = MPCORE_ADDR + 0x00001C10; //  32    rw    0x00000000    Interrupt Configuration Register 4
@@ -2834,7 +2834,7 @@ const uintptr_t GIC_ICDIPTR23_TARGET_92_BPOS = 0;             // 00: no CPU targ
 // Absolute Address        0xF8F01C00
 // Width                   32 bits
 // Access Type             ro
-// Reset Value             0x00000000
+// Reset Value             0xAAAAAAAA
 // Description             Interrupt Configuration Register 0
 //
 // Register GIC_ICDICFR0 Details
@@ -2932,8 +2932,8 @@ const uintptr_t GIC_ICDICFR0_CONFIG_0_BPOS  = 0;             // 10: edge sensiti
 // Relative Address         0x00001C04
 // Absolute Address         0xF8F01C04
 // Width                    32 bits
-// Access Type              rw
-// Reset Value              0x00000000
+// Access Type              ro
+// Reset Value              0x7DC00000
 // Description              Interrupt Configuration Register 1
 //
 // Register GIC_ICDICFR1 Details
@@ -2944,29 +2944,29 @@ const uintptr_t GIC_ICDICFR0_CONFIG_0_BPOS  = 0;             // 10: edge sensiti
 //         Note: There are two instances of this register at the same address. One register is accessible by CPU 0 and
 //         the other register is accessible by CPU 1.
 //
-                                                             // Properties: Bits: 31:30, Type: rw, Reset Value: 0x0
+                                                             // Properties: Bits: 31:30, Type: ro, Reset Value: 0x0
 const uintptr_t GIC_ICDICFR1_CONFIG_31_MASK = 0xC0000000;    // Configuration for interrupt ID#31 (nIRQ)
 const uintptr_t GIC_ICDICFR1_CONFIG_31_BPOS = 30;            // 01: low-level active
 
-                                                             // Properties: Bits: 29:28, Type: rw, Reset Value: 0x0
+                                                             // Properties: Bits: 29:28, Type: ro, Reset Value: 0x0
 const uintptr_t GIC_ICDICFR1_CONFIG_30_MASK = 0x30000000;    // Configuration for interrupt ID#30 (CPU
 const uintptr_t GIC_ICDICFR1_CONFIG_30_BPOS = 28;            // watchdog timer)
                                                              // 11: edge sensitive
 
-                                                             // Properties: Bits: 27:26, Type: rw, Reset Value: 0x0
+                                                             // Properties: Bits: 27:26, Type: ro, Reset Value: 0x0
 const uintptr_t GIC_ICDICFR1_CONFIG_29_MASK = 0x0C000000;    // Configuration for interrupt ID#29 (CPU private
 const uintptr_t GIC_ICDICFR1_CONFIG_29_BPOS = 26;            // timer)
                                                              // 11: edge sensitive
 
-                                                             // Properties: Bits: 25:24, Type: rw, Reset Value: 0x0
+                                                             // Properties: Bits: 25:24, Type: ro, Reset Value: 0x0
 const uintptr_t GIC_ICDICFR1_CONFIG_28_MASK = 0x03000000;    // Configuration for interrupt ID#28 (nFIQ)
 const uintptr_t GIC_ICDICFR1_CONFIG_28_BPOS = 24;            // 01: low-level active
 
-                                                             // Properties: Bits: 23:22, Type: rw, Reset Value: 0x0
+                                                             // Properties: Bits: 23:22, Type: ro, Reset Value: 0x0
 const uintptr_t GIC_ICDICFR1_CONFIG_27_MASK = 0x00C00000;    // Configuration for interrupt ID#27 (global timer)
 const uintptr_t GIC_ICDICFR1_CONFIG_27_BPOS = 22;            // 11: edge sensitive
 
-// RESERVED                                                     Properties: Bits: 21:0, Type: rw, Reset Value: 0x0
+// RESERVED                                                     Properties: Bits: 21:0, Type: ro, Reset Value: 0x0
 
 
 //------------------------------------------------------------------------------

@@ -83,8 +83,8 @@
 // Register QSPI_CONFIG_REG Details
 //
                                                  // Properties: Bit: 31, Type: rw, Reset Value: 0x1
-#define QSPI_LEG_FLSH_MASK       0x80000000UL    // Flash memory interface mode control:
-#define QSPI_LEG_FLSH_BPOS       31UL            // 0: legacy SPI mode
+#define QSPI_IFMODE_MASK         0x80000000UL    // Flash memory interface mode control:
+#define QSPI_IFMODE_BPOS         31UL            // 0: legacy SPI mode
                                                  // 1: Flash memory interface mode
                                                  // This control is required to enable or disable
                                                  // automatic recognition of instruction bytes in the
